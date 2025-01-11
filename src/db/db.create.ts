@@ -1,6 +1,7 @@
 import { createDatabase } from "typeorm-extension";
 import { Env } from "../env";
-import { UserEntity } from "../entities";
+import { UserEntity } from "../entities/user.entity";
+import { TodoEntity } from "../entities/todo.entity";
 
 export const dbCreate = async () => {
   await createDatabase({
@@ -12,7 +13,7 @@ export const dbCreate = async () => {
       password: Env.password,
       port: Env.dbPort,
       database: Env.dbName,
-      entities: [UserEntity],
+      entities: [UserEntity, TodoEntity],
     },
   });
 };
