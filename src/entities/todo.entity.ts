@@ -22,6 +22,10 @@ export class TodoEntity extends CoreEntity {
   @Column({ name: "user_uuid" })
   userUuid: string;
 
+  @Column({ type: "boolean", default: false })
+  deleted: boolean;
+
+  
   @ManyToOne(() => UserEntity, { nullable: false })
   @JoinColumn({ name: "user_uuid" })
   user: UserEntity;
