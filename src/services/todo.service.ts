@@ -19,10 +19,13 @@ export const createTodo = async (data: {
 
 export const getUserTodos = async (userId: string) => {
   const todoRepository = AppDataSouce.getRepository(TodoEntity);
-  return await todoRepository.find({
+  const todos = await todoRepository.find({
     where: { user: { uuid: userId } },
     order: { createdAt: "DESC" },
+    relations: ['user'],
   });
+
+  return todos.filter(todo => todo.user.uuid === userId);
 };
 
 export const updateTodo = async (

@@ -16,16 +16,12 @@ export class TodoEntity extends CoreEntity {
   @Column({ type: "boolean", default: false })
   completed: boolean;
 
-  @Column({ type: "timestamp", nullable: true })
+  @Column({ type: "datetime", nullable: true })
   dueDate: Date;
 
   @Column({ name: "user_uuid" })
   userUuid: string;
 
-  @Column({ type: "boolean", default: false })
-  deleted: boolean;
-
-  
   @ManyToOne(() => UserEntity, { nullable: false })
   @JoinColumn({ name: "user_uuid" })
   user: UserEntity;

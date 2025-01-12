@@ -7,13 +7,24 @@ import { UnauthorizedError } from "../errors/unauthorized.error";
 
 export const checkAuth = async (req, _res, next: NextFunction) => {
   try {
-    const token = req.header("Authorization").replace("Bearer ", "");
+    const token = req.header("Authorization")?.replace("Bearer ", "");
+    
+    if (!token) {
+      throw new UnauthorizedError("No token provided");
+    }
+
     const { secretKey } = Env;
-    const { id } = jwt.verify(token, secretKey) as PayloadType;
-    const user = await userService.getOneUser({ id });
-    req.user = { ...user };
+    const { uuid } = jwt.verify(token, secretKey) as { uuid: string };
+    
+    const user = await userService.getOneUser({ uuid });
+    
+    if (!user) {
+      throw new UnauthorizedError("User not found");
+    }
+
+    req.user = user;
     next();
-  } catch {
-    next(new UnauthorizedError("Token is invalid"));
+  } catch (error) {
+    next(new UnauthorizedError("Authentication failed"));
   }
 };
