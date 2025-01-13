@@ -30,5 +30,10 @@
     "require": []
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "src/test/**/*"
+  ]
 }
